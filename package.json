@@ -1,0 +1,22 @@
+{
+  "name": "gamingtgbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "init-encrypted-key": "node scripts/init-encrypted-key.js",
+    "admin-cli": "node scripts/admin-tools.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "commander": "^14.0.0",
+    "crypto-js": "^4.2.0",
+    "dotenv": "^17.2.1",
+    "node-telegram-bot-api": "^0.66.0",
+    "nodemon": "^3.1.10"
+  }
+}

@@ -1,0 +1,27 @@
+STRUCTURE
+project:
+    index.js
+    .env
+    .gitignore
+    Meta.txt
+    /keyboards/
+        generalKeyboards.js
+    /images/
+        images... .jpg
+    /states/
+        globalStates.js
+    /configs/
+        globalConfig.js
+        /encrypted/
+            admins.json
+    /utils/
+        <blank> //TODO
+    /handlers/
+        index.js
+        /commandHandlers/
+            startCommandHandler.js
+    /scripts/
+        admin-tools.js
+        init-encrypted-key.js
+    /SpyGame/
+        <blank>
