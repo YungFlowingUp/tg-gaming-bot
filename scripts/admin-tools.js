@@ -55,7 +55,6 @@ async function saveAdmins(adminsConfig) {
     await fs.writeFile(ADMINS_FILE, JSON.stringify(adminsConfig, null, 2));
 }
 
-//TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!LEARN!!!!!!!!!!!!!!!!!!!!! Asking the confirmation
 function askQuestion(question) {
     const rl = readline.createInterface({
         input: process.stdin,

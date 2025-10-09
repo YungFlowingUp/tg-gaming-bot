@@ -1,20 +1,3 @@
-/*superAdmins = [952783705];
-admins = [...superAdmins];
-
-module.exports = {
-    superAdmins,
-    admins,
-    commands: [
-        {
-            command: '/start',s
-            description: 'Встать на учёт!'
-        },
-        {
-            command: '/begin',
-            description: 'Начать игру!'
-        }
-    ]
-};*/
 module.exports = {
     commands: [
         {
@@ -26,7 +9,7 @@ module.exports = {
             description: 'Начать игру!'
         },
         {
-            command: '/showID',
+            command: '/showid',
             description: 'Узнать своё ID'
         }
     ]

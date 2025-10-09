@@ -1,7 +1,5 @@
 const TelegramBot = require('node-telegram-bot-api');
 require('dotenv').config();
-const fs = require('fs');
-const path = require('path');
 
 const globalConfig = require('./configs/globalConfig');
 
