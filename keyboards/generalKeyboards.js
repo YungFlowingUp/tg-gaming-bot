@@ -1,14 +1,17 @@
 const gameSelectionKeyboard = {
     reply_markup: {
         keyboard: [
-            [{ text: '🎩Шляпа🎩' }],
-            [{ text: '🕵🏻‍♂️Шпион🕵🏻‍♂️' }],
-            [{ text: '☢️Бункер☢️' }]
+            ['🎩Шляпа🎩' ],
+            ['🕵🏻‍♂️Шпион🕵🏻‍♂️'],
+            ['☢️Бункер☢️']
         ],
         resize_keyboard: true,
-        one_time_keyboard: true //TODO |Can be changed????|
+        input_field_placeholder: "Выберите игру из списка...",
+        one_time_keyboard: false 
     }
 };
+
+
 
 module.exports = {
     gameSelectionKeyboard

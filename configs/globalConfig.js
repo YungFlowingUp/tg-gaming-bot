@@ -11,6 +11,10 @@ module.exports = {
         {
             command: '/showid',
             description: 'Узнать своё ID'
+        },
+        {
+            command: '/admin',
+            description: 'Админ-панель'
         }
     ]
 };

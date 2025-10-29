@@ -6,6 +6,7 @@ project:
     Meta.txt
     /keyboards/
         generalKeyboards.js
+        adminKeyboards.js
     /images/
         images... .jpg
     /states/
@@ -15,10 +16,14 @@ project:
         /encrypted/
             admins.json
     /utils/
-        <blank> //TODO
+        permissions.js
+        wrappers.js
     /handlers/
         index.js
         /commandHandlers/
+            adminPanelHandler.js
+            beginCommandHandler.js
+            showIdCommandHandler.js
             startCommandHandler.js
     /scripts/
         admin-tools.js
