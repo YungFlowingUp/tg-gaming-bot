@@ -1,3 +1,5 @@
+const logger = require('../utils/logger');
+
 // Gaming states
 const players = [];
 let playersIDCounter = 0;
@@ -16,11 +18,21 @@ const ADMIN_STATES = {
 };
 
 function setAdminState(userId, state, data = {}) {
+    const previousState = adminPanelStates[userId]?.state; //? For logging
     adminPanelStates[userId] = {
         state: state,
         data: data,
         timestamp: Date.now()
     };
+    
+    console.log(data);
+    
+    //? Logging
+    if (previousState) {
+        logger.debug(`Admin state changed for user ${userId}, state: ${previousState} → ${state}. Data :${JSON.stringify(data)}`);        
+    } else {
+        logger.debug(`Admin state set for user ${userId}, state: ${state}. Data :${JSON.stringify(data)}`);
+    }
     
     // Autoclearing in 10 mins
     setTimeout(() => {
@@ -35,13 +47,13 @@ function getAdminState(userId) {
 }
 
 function clearAdminState(userId) {
-    delete adminPanelStates[userId];
-}
+    //? Logging
+    const previousState = adminPanelStates[userId]?.state;
+    if (previousState) {
+        logger.debug(`Manually clearing admin state for user ${userId}. Cleared state - ${previousState}`);
+    }
 
-//TODO ???????????
-function isUserInAdminState(userId, state) {
-    const userState = getAdminState(userId);
-    return userState && userState.state === state;
+    delete adminPanelStates[userId];
 }
 
 module.exports = {
@@ -57,5 +69,4 @@ module.exports = {
     setAdminState,
     getAdminState,
     clearAdminState,
-    isUserInAdminState
 };

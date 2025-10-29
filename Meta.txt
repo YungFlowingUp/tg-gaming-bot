@@ -3,12 +3,17 @@ project:
     index.js
     .env
     .gitignore
+    readme.md
     Meta.txt
     /keyboards/
         generalKeyboards.js
         adminKeyboards.js
     /images/
         images... .jpg
+    /logs/
+        all_plus_debug.log
+        error.log
+        info.log
     /states/
         globalStates.js
     /configs/
@@ -16,6 +21,7 @@ project:
         /encrypted/
             admins.json
     /utils/
+        logger.js
         permissions.js
         wrappers.js
     /handlers/
