@@ -2,7 +2,7 @@ const logger = require('./logger');
 const { isAdmin, isSuperAdmin } = require('./permissions');
 
 function requireAdmin(originalHandler) {
-    return async function wrappedHandler(bot, msg, globalStates) {
+    return async function wrappedHandler(bot, msg, ...args) {
         const userId = msg.from.id;
         const chatId = msg.chat.id;        
         
@@ -28,7 +28,7 @@ function requireAdmin(originalHandler) {
             `userId: ${userId}, chatId: ${chatId}, handler: ${originalHandler.name}` 
         );
 
-        return await originalHandler(bot, msg, globalStates);
+        return await originalHandler(bot, msg, ...args);
     };
 }
 

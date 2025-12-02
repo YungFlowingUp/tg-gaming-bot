@@ -1,5 +1,5 @@
 const logger = require("../../utils/logger");
-const { gameSelectionKeyboard } = require("../../keyboards/generalKeyboards");
+const { gameSelectionKeyboard } = require("../../keyboards/roomsManagerKeyboards");
 
 async function handleShowId(bot, msg) {
     const chatId = msg.chat.id;

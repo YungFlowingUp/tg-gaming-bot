@@ -124,7 +124,7 @@ async function handleAdminCallbackQuery(bot, callbackQuery, globalStates) {
                 message_id: callbackQuery.message.message_id,
                 reply_markup: { inline_keyboard: [] }
             });
-            logger.warn(`The user ${userId} exits the removing admin mode. ChatID ${chatId}`); //? Logging user exits removing mode
+            logger.debug(`The user ${userId} exits the removing admin mode. ChatID ${chatId}`); //? Logging user exits removing mode
             
             //* Showing admin panel again
             await bot.sendMessage(chatId, '⚙️ <b>Панель управления админами</b>', {
@@ -136,7 +136,7 @@ async function handleAdminCallbackQuery(bot, callbackQuery, globalStates) {
         }
         
         //* Handling choosing of an admin (+ sending confiramtion if super admin is chosen)
-        if (data.startsWith('remove_admin:')) {
+        if (data.startsWith('admin_remove')) {
             const parts = data.split(':');
             const selectedUserId = parseInt(parts[1]); //* Converting to a number
             const adminType = parts[2]; //* 'super' или 'admin'            
@@ -190,7 +190,7 @@ async function handleAdminCallbackQuery(bot, callbackQuery, globalStates) {
         }
         
         //* Handling super admin removing confirmation 
-        if (data.startsWith('confirm_remove:')) {
+        if (data.startsWith('admin_confirm_remove')) {
             const parts = data.split(':');
             const userIdToRemove = parseInt(parts[1]);
             const action = parts[2]; //* 'full' || 'demote'
@@ -224,17 +224,20 @@ async function handleAdminCallbackQuery(bot, callbackQuery, globalStates) {
         
     } catch (error) {
         logger.error(`Couldn't remove/demote an admin with error ${error}`); //? Logging the error
+        await bot.editMessageText('❌ Произошла ошибка.', {
+                chat_id: chatId,
+                message_id: callbackQuery.message.message_id,
+                reply_markup: { inline_keyboard: [] }
+        });
     }
 }
 
-async function _handleAdminIdInput(bot, msg, globalStates) {
+async function handleAdminTextMessage(bot, msg, globalStates) {
     const chatId = msg.chat.id;
     const userId = msg.from.id;
     const text = msg.text;
 
-    const userState = globalStates.getAdminState(userId);
-
-    //* Just checking for the record
+    const userState = globalStates.getAdminState(userId);  
     if (!userState) return;
 
     //* Handling canceling 
@@ -252,7 +255,7 @@ async function _handleAdminIdInput(bot, msg, globalStates) {
 
         await bot.sendMessage(chatId, 
             '👥 <b>Добавление ' +
-            `${userState.state === globalStates.ADMIN_STATES.AWAITING_ADMIN_ID ? 'админа' : 'СУПЕР-админа'}</b>\n` +
+            `${userState === globalStates.ADMIN_STATES.AWAITING_ADMIN_ID ? 'админа' : 'СУПЕР-админа'}</b>\n` +
             '❌ Пожалуйста, введите корректный числовой ID.\nПример: <code>322369148</code>', {
             ...adminCancelKeyboard,
             parse_mode: 'HTML'
@@ -264,16 +267,16 @@ async function _handleAdminIdInput(bot, msg, globalStates) {
     }
     
     //* Adding an admin
-    let result;
-    if (userState.state === globalStates.ADMIN_STATES.AWAITING_ADMIN_ID) { //* Regular admin
-        result = await addAdmin(inputId, false); 
+    let result;    
+    if (userState === globalStates.ADMIN_STATES.AWAITING_ADMIN_ID) { //* Regular admin
+        result = await addAdmin(inputId, false);
 
         //? Logging regular admin was added
         logger.info(`Regular admin ${inputId} is added by user ${userId}. ChatID ${chatId}. ` +
             `Result: success - ${result.success}, type - ${result.type}, message - ${result.message}`
         ); 
     } 
-    else if (userState.state === globalStates.ADMIN_STATES.AWAITING_SUPERADMIN_ID) { //* Super admin
+    else if (userState === globalStates.ADMIN_STATES.AWAITING_SUPERADMIN_ID) { //* Super admin
         result = await addAdmin(inputId, true); 
 
         //? Logging SUPER-admin was added
@@ -283,8 +286,7 @@ async function _handleAdminIdInput(bot, msg, globalStates) {
     }
     
     //* Clearing state
-    globalStates.clearAdminState(userId);
-    
+    globalStates.clearAdminState(userId);   
 
     await bot.sendMessage(chatId, result.message, {
         ...adminMainKeyboard,
@@ -294,20 +296,6 @@ async function _handleAdminIdInput(bot, msg, globalStates) {
 
     handleShowAdmins(bot, msg);
 }
-
-//* Handler for admin panel input text
-async function handleAdminTextMessage(bot, msg, globalStates) {
-    const userId = msg.from.id;
-    const userState = globalStates.getAdminState(userId);
-    
-    if (userState) {
-        if (userState.state === globalStates.ADMIN_STATES.AWAITING_ADMIN_ID || 
-            userState.state === globalStates.ADMIN_STATES.AWAITING_SUPERADMIN_ID) {
-            await _handleAdminIdInput(bot, msg, globalStates);
-        }
-    }
-}
-
 
 module.exports = {
     handleAdminPanel: requireSuperAdmin(handleAdminPanel), // Main admin panel

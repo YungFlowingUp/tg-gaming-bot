@@ -25,8 +25,8 @@ function createSuperAdminConfirmKeyboard(adminId) {
         reply_markup: {         
             inline_keyboard: [  
                 [
-                    { text: '✅ Удалить полностью', callback_data: `confirm_remove:${adminId}:full` },
-                    { text: '🔽 Оставить как админа', callback_data: `confirm_remove:${adminId}:demote` }
+                    { text: '✅ Удалить полностью', callback_data: `admin_confirm_remove:${adminId}:full` },
+                    { text: '🔽 Оставить как админа', callback_data: `admin_confirm_remove:${adminId}:demote` }
                 ],
                 [
                     { text: '❌ Отмена', callback_data: 'admin_cancel' }
@@ -43,7 +43,7 @@ function createAdminsListKeyboard(admins) {
     //* Adding 👑 & callback_data to super admins
     const superAdminButtons = admins.superAdmins.map(adminId => ({
         text: `👑👥 ${adminId}`,
-        callback_data: `remove_admin:${adminId}:super`
+        callback_data: `admin_remove:${adminId}:super`
     }));
         
     //* Group by 2
@@ -63,7 +63,7 @@ function createAdminsListKeyboard(admins) {
     //* Adding 👥 & callback_data to regular admins        
     const adminButtons = regularAdmins.map(adminId => ({     
         text: `👥 ${adminId}`,    
-        callback_data: `remove_admin:${adminId}:admin`
+        callback_data: `admin_remove:${adminId}:admin`
     }));
         
     //* Group by 2

@@ -8,6 +8,7 @@ project:
     /keyboards/
         generalKeyboards.js
         adminKeyboards.js
+        roomKeyboards.js
     /images/
         images... .jpg
     /logs/
@@ -18,8 +19,12 @@ project:
         globalStates.js
     /configs/
         globalConfig.js
+        commands.js
         /encrypted/
             admins.json
+    /rooms/
+        Room.js
+        RoomManager.js
     /utils/
         logger.js
         permissions.js
@@ -29,6 +34,8 @@ project:
         /commandHandlers/
             adminPanelHandler.js
             beginCommandHandler.js
+            roomCommandHandler.js
+            roomsManagerHandler.js
             showIdCommandHandler.js
             startCommandHandler.js
     /scripts/
@@ -36,3 +43,33 @@ project:
         init-encrypted-key.js
     /SpyGame/
         <blank>
+
+
+1) rooms enabled:
+    Class Room.js
+    Class RoomManager.js
+    startCommandHandler() => keyboard with rooms (create / choose existed) (default keyboard)
+        Inside rooms:
+            creater:
+                The Room settings keyboard (creator logic) (choose game ; start game ; stop game ; change settings ; kick user ; delete room)
+            user:
+                ready/not ready ; leave - keybaord
+                if admin:
+                    user keybaord + kick user
+            
+
+
+----Switching on turning on bot OR changing inside adminKeyboard----
+
+
+2) rooms disabled:
+    Class Room.js
+    Class RoomManager.js
+    startCommandHandler() => (default keyboard) -> default hidden room already exists
+    Only admins can change game and start
+
+
+
+---This thread---
+    ПОКА ВСЕ БЕЗ ЛОГИРОВАНИЯ!
+globalStates.js - дописать, посмотреть стейты с клавиатурами 

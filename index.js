@@ -1,8 +1,7 @@
 const TelegramBot = require('node-telegram-bot-api');
 require('dotenv').config();
-const logger = require('./utils/logger');
-
 const globalConfig = require('./configs/globalConfig');
+const logger = require('./utils/logger');
 
 const TOKEN = process.env.BOT_TOKEN;
 const bot = new TelegramBot(TOKEN, { 
@@ -18,14 +17,19 @@ const bot = new TelegramBot(TOKEN, {
 
 logger.info('🥶🥶🥶  Bot has started! 🥶🥶🥶'); //? Logging starting
 
-bot.setMyCommands(globalConfig.commands);
+const commands = require('./configs/commands');
+bot.setMyCommands(commands);
+logger.info(`The mode is ${globalConfig.rooms.enabled ? '✅ ROOMS ENABLED' : '❌  NO ROOMS'}`); //? Logging starting
 
-const globalStates = require('./states/globalStates');
+const { GlobalStates } = require('./states/globalStates');
+const globalStates = new GlobalStates();
+
+const RoomManager = require('./rooms/RoomManager');
+const roomManager = new RoomManager();
+roomManager.createDefault();
+
+const RoomDashboard = require('./rooms/RoomDashboard');
+const roomDashboard = new RoomDashboard(bot, roomManager);
+
 const { registerAllHandlers } = require('./handlers');
-
-registerAllHandlers(bot, globalStates);
-
-bot.onText(/\/begining/, async (msg) => {
-    const chatId = msg.chat.id;
-
-});
+registerAllHandlers(bot, globalStates, roomManager, roomDashboard);

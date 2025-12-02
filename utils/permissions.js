@@ -79,7 +79,7 @@ async function addAdmin(userId, superAdmin = false) {
     const adminsConfig = await loadAdmins();
     const encryptedId = encryptId(userId);
     
-    const isUserAdmin = await  isAdmin(userId);
+    const isUserAdmin = await isAdmin(userId);
     const isUserSuperAdmin = await isSuperAdmin(userId); 
 
     //? Logging adding procedure has started
